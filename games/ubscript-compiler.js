@@ -134,6 +134,7 @@ const run = function(text, c = true) {
 	}
 	const result = parser(text, lexer(text))
 	if (c) {
+		let i = 0
 		let t = ""
 		const variables = {}
 		const definedVariables = []
