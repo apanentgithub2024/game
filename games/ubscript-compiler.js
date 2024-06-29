@@ -134,7 +134,6 @@ const run = function(text, c = true) {
 	}
 	const result = parser(text, lexer(text))
 	if (c) {
-		let i = 0
 		let t = ""
 		const variables = {}
 		const definedVariables = []
@@ -227,7 +226,7 @@ const run = function(text, c = true) {
 			}
 			return f
 		}
-		const y = result[i+1].f.some(i => i.type === "getti")
+		const y = result.filter(i => i.type === "f").some(i => i.f.some(j => j.type === "getti"))
 		function compileLines(result, isbase) {
 			let code = "" + (isbase ? (y ? "const time=performance.now();" : "") : "")
 			let i = 0
@@ -240,12 +239,15 @@ const run = function(text, c = true) {
 					definedVariables.push(t.v)
 				} else if (t.type == "lo") {
 					if (!definedVariables.includes(t.v)) {
-						throw `CompilerError: The variable "${t.v}" has to be defined in order to be unlocked`
+						throw `CompilerError: The variable "${t.v}" has to be defined in order to be locked`
 					}
 					variables[t.v] = placeholder(t.v)
 					code += `${i>0?";":""}const ${placeholder(t.v)}=${t.v}`
 					lockedVariables.push(variables[t.v])
 				} else if (t.type == "ulo") {
+					if (!definedVariables.includes(t.v)) {
+						throw `CompilerError: The variable "${t.v}" has to be defined, then locked in order to be unlocked`
+					}
 					const success = delete variables[t.v]
 					if (!success) {
 						throw `CompilerError: The variable "${t.v}" has to be locked in order to be unlocked`
