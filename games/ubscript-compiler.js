@@ -190,7 +190,7 @@ const run = function(text, c = true) {
 						}
 						break
 					case "var":
-						f += result.some(i => i.type == "dv" && !i.v.endsWith("_"))Object.prototype.hasOwnProperty.call(variables, token.v)?variables[token.v]:token.v
+						f += result.some(i => i.type == "dv" && !i.v.endsWith("_")) ? (Object.prototype.hasOwnProperty.call(variables, token.v)?variables[token.v]:token.v) : token.v + "_"
 						break
 					case "ari":
 						const lt = tokens[i - 1]
