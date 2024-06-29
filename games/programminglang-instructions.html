@@ -1,0 +1,33 @@
+<h1>It's a new beginning</h1>
+<p>Welcome to the instructions page! This is just a website I decided to make. This is for people who do not know/are not familiar with my programming language. But if you are new to the programming language, you can feel free to read this documentation! I covered all of the syntax and features that exist in the world of UBScript, which means there aren't any "secret" or "hidden" features in my programming language.</p>
+<hr>
+<h1>Syntax</h1>
+<h2>Defining a variable</h2>
+<p>To define a variable, you can always use the <code>define</code> keyword. You're going to probably say "well, duh" at the next sentence. This keyword creates a variable, and assigns it a value. However, a value must always be defined for the variable. Here are the examples of the valid and invalid declarations.</p>
+Valid:<br><ul>
+  <li>define variable_name = "Hello, world!"</li>
+  <li>define variable_name = 123</li>
+  <li>define define = "This still works! This might be confusing, or not recommended, though."</li>
+</ul>
+<p>Notice the third valid example? This is not what many programming languages allow you to do. This is because the <code>define</code> keyword does not exist in all JavaScript engines. This is also transpiled into JavaScript, too. However as the string value mentions, it is not recommended to use that variable name, because if you use it, and if it is not used by a keyword, the compiler would become "confused".</p>
+Invalid:<br><ul>
+  <li>define 1variable = "That does not work, because the variable cannot start with a number."</li>
+  <li>define variable</li>
+  <li>define variable$wow = "That also does not work."</li>
+</ul>
+<p>As long as you understood the examples above, you can provide a valid and good variable declaration.</p>
+<h2>Locking a variable</h2>
+<p>If you're confused of what this actually means in the programming language, this just basically makes the variable constant (e.g. a constant variable cannot have it's value changed). This is also what not many programming languages allow you to do. This is done by using the <code>lock</code> keyword. If that variable doesn't exist, you may see an error that looks something like this:</p>
+<code style="color: red">CompilerError: The variable "invalid_var" has to be defined in order to be locked</code>
+<p>However, this does not provide a source of where the error occurred in the compiler. If you don't see it, try pressing F12 or right-clicking then clicking "Inspect" or pressing/holding three keys: CTRL+Shift+I. Here are examples to do it:</p>
+Valid:<br><ul>
+  <li>define variable_name = "Hello, world!"<br>lock variable_name</li>
+  <li>define variable_name = 123<br>lock variable_name</li>
+  <li>define define = "This still works! This might be confusing, or not recommended, though."<br>lock define</li>
+</ul>
+<p>Using <code>define</code> is valid, because it is used in/by a keyword.</p>
+Invalid:<br><ul>
+  <li>define 1variable_name = "Hello, world!"<br>lock 1variable_name</li>
+  <li>define variable_name<br>lock variable_name</li>
+  <li>lock variable_name</li>
+</ul>
