@@ -7,7 +7,6 @@ const run = function(text, c = true) {
 	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=", "gs")
 	function lexer(c) {
 		const a = c.match(tokensRe)
-		console.log(a)
 		return a
 	}
 	function parser(original, tok) {
