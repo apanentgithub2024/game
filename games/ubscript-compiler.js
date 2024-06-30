@@ -6,8 +6,12 @@ const run = function(text, c = true) {
 	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*=>\s*|end(\s+|;|\n)|getTime\s*=>\s*\(\)/
 	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=", "gs")
 	function lexer(c) {
-		const a = c.match(tokensRe)
-		return a
+		try {
+			const a = c.match(tokensRe)
+			return a
+		} catch {
+			return []
+		}
 	}
 	function parser(original, tok) {
 		const check = original.replace(tokensRe, "")
