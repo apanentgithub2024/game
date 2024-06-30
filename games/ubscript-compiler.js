@@ -1,13 +1,15 @@
 // If you're borrowing this for something, then I hope you credit me.
 // License: MIT License
 // DO NOT REMOVE THE CREDITS ABOVE THIS COMMENT!
-const run = function(text, c = true) {
-	const ret = /"((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)'|\d+|\d*\.(\d*)|\s*([\+\-\*\^]|and|or|xor|not|nand|nor|xnor|==|\^=)\s*|(?!define|lock|unlock|if|log|string)([a-zA-Z_]([a-zA-Z_0-9]*))|string\s*=>\s*|getTime\s*=>\s*\(\)/
-	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*=>\s*|end(\s+|;|\n)/
-	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=", "gs")
+alert("This is temporarily disabled for now. We will work on it more soon!")
+const run_ = function(text, c = true) {
+	const ret = /"((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)'|\d+|\d*\.(\d*)|\s*([\+\-\*\^]|and|or|xor|not|nand|nor|xnor|==|\^=)\s*|(?!define|lock|unlock|if|log|string|getTime|stringify)([a-zA-Z_]([a-zA-Z_0-9]*))|stringify\s*\=>\s*|getTime\s*\=>\s*\(\)/
+	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*\=>\s*|end/
+	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=(\\>?)", "gs")
 	function lexer(c) {
 		try {
 			const a = c.match(tokensRe)
+			console.log(a)
 			return a
 		} catch {
 			return []
@@ -44,7 +46,7 @@ const run = function(text, c = true) {
 							type: "bo",
 							b: token.trim()
 						})
-					} else if (/getTime\s*=>\s*\(\)/.test(token)) {
+					} else if (/getTime\s*\=>\s*\(\)/.test(token)) {
 						f.push({
 							type: "getti"
 						})
@@ -117,15 +119,22 @@ const run = function(text, c = true) {
 					})
 					state = "forif"
 				} else if (state === "if") {
-					if (token.startsWith("end")) {
-						tokens.push({
-							type: "sou", // source
-							f: parseLines(lines)
-						})
-						state = ""
-						lines = []
+					let ends = 1 // Make sure all "if"s do not get confused by end keywords
+					if (token == "end") {
+						ends--
+						if (ends == 0) {
+							tokens.push({
+								type: "sou", // source
+								f: parseLines(lines)
+							})
+							state = ""
+							lines = []
+						}
 					} else {
 						lines.push(token)
+						if (token.startsWith("if")) {
+							ends++
+						}
 					}
 				}
 				i++
@@ -193,7 +202,7 @@ const run = function(text, c = true) {
 						}
 						break
 					case "var":
-						f += result.some(i => i.type == "dv" && !i.v.endsWith("_")) ? (Object.prototype.hasOwnProperty.call(variables, token.v)?variables[token.v]:token.v) : token.v + "_"
+						f += result.some(i => i.type == "dv" && !i.v.endsWith("_")) ? (Object.prototype.hasOwnProperty.call(variables, token.v)?variables[token.v]:token.v) : placeholder(token.v)
 						break
 					case "ari":
 						const lt = tokens[i - 1]
@@ -237,7 +246,7 @@ const run = function(text, c = true) {
 				const t = result[i]
 				if (t.type == "dv") {
 					const r = compile(result[i+1])
-					variableTypes[t.v] = /(("((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)')((\.repeat\(\d+\)|\.slice\(-(\d+)\))?)(\+?))*/s.test(r) || r.includes('+""') ? "st" : ""
+					variableTypes[t.v] = 
 					code += `${i>0?";":""}let ${placeholder(t.v)}=${r}`
 					definedVariables.push(t.v)
 				} else if (t.type == "lo") {
