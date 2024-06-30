@@ -37,7 +37,7 @@ const run = function(text, c = true) {
 					} else if (/(=|\^)=/.test(token)) {
 						f.push({
 							type: "eq",
-							n: token.includes("^")
+							n: token.startsWith("^")
 						})
 					} else if (/(n?)(and|or)|x(n?)or|not/.test(token)) {
 						f.push({
