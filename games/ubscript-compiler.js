@@ -2,8 +2,8 @@
 // License: MIT License
 // DO NOT REMOVE THE CREDITS ABOVE THIS COMMENT!
 const run = function(text, c = true) {
-	const ret = /"((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)'|\d+|\d*\.(\d*)|\s*([\+\-\*\^]|and|or|xor|not|nand|nor|xnor|==|\^=)\s*|(?!define|lock|unlock|if|log|string)([a-zA-Z_]([a-zA-Z_0-9]*))|string\s*=>\s*/
-	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*=>\s*|end(\s+|;|\n)|getTime\s*=>\s*\(\)/
+	const ret = /"((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)'|\d+|\d*\.(\d*)|\s*([\+\-\*\^]|and|or|xor|not|nand|nor|xnor|==|\^=)\s*|(?!define|lock|unlock|if|log|string)([a-zA-Z_]([a-zA-Z_0-9]*))|string\s*=>\s*|getTime\s*=>\s*\(\)/
+	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*=>\s*|end(\s+|;|\n)/
 	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=", "gs")
 	function lexer(c) {
 		try {
@@ -15,8 +15,8 @@ const run = function(text, c = true) {
 	}
 	function parser(original, tok) {
 		const check = original.replace(tokensRe, "")
-		if (/[^ \r\t\n;\>]/.test(check)) {
-			throw "ParserError: Invalid token has been found: " + check.match(/[^ \r\t\n;\>]+/g)[0]
+		if (/[^ \r\t\n;]/.test(check)) {
+			throw "ParserError: Invalid token has been found: " + check.match(/[^ \r\t\n;]+/g)[0]
 		}
 		let formula = []
 		function parseIntoFormula(group) {
