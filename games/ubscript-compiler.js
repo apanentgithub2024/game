@@ -1,8 +1,7 @@
 // If you're borrowing this for something, then I hope you credit me.
 // License: MIT License
 // DO NOT REMOVE THE CREDITS ABOVE THIS COMMENT!
-alert("This is temporarily disabled for now. We will work on it more soon!")
-const run_ = function(text, c = true) {
+const run = function(text, c = true) {
 	const ret = /"((?:[^"\\]|\\.)*)"|'((?:[^"\\]|\\.)*)'|\d+|\d*\.(\d*)|\s*([\+\-\*\^]|and|or|xor|not|nand|nor|xnor|==|\^=)\s*|(?!define|lock|unlock|if|log|string|getTime|stringify)([a-zA-Z_]([a-zA-Z_0-9]*))|stringify\s*\=>\s*|getTime\s*\=>\s*\(\)/
 	const keys = /define\s+([a-zA-Z_]([a-zA-Z_0-9]*))\s*=\s*|((un?)lock)\s+([a-zA-Z_]([a-zA-Z_0-9]*))|if\s+|log\s*\=>\s*|end/
 	const tokensRe = new RegExp(ret.source + "|" + keys.source + "|=(\\>?)", "gs")
